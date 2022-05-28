@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/apt")
 @Api(value = "Appointment Endpoints")
