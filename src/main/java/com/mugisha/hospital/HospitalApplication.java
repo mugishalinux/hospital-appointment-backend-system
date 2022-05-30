@@ -15,15 +15,15 @@ public class HospitalApplication {
 	}
 
 	@Bean
-	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(){
-		FilterRegistrationBean<AuthFilter> registrationBean=new FilterRegistrationBean<>();
-		AuthFilter authFilter=new AuthFilter();
-		registrationBean.setFilter(authFilter);
-		registrationBean.addUrlPatterns("/api/v1/*");
-//		registrationBean.addUrlPatterns("/api/v1/department");
-//		registrationBean.addUrlPatterns("/api/v1/doctor");
-		return registrationBean;
+// 	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(){
+// 		FilterRegistrationBean<AuthFilter> registrationBean=new FilterRegistrationBean<>();
+// 		AuthFilter authFilter=new AuthFilter();
+// 		registrationBean.setFilter(authFilter);
+// 		registrationBean.addUrlPatterns("/api/v1/*");
+// //		registrationBean.addUrlPatterns("/api/v1/department");
+// //		registrationBean.addUrlPatterns("/api/v1/doctor");
+// 		return registrationBean;
 
-	}
+// 	}
 
 }
