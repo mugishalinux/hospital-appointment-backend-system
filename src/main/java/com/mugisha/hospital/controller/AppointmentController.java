@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/apt")
 @Api(value = "Appointment Endpoints")
@@ -133,6 +133,8 @@ public class AppointmentController {
             mailService.sendTextEmail(existingAppointment.getPatientName(),existingAppointment.getPatientEmail(),existingAppointment.getAppointmentStatus().name());
 
         }
+
+
 
         return new ResponseEntity<>(updatedAppointment,HttpStatus.OK);
     }
