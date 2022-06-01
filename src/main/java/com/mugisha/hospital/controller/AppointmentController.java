@@ -21,12 +21,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-@CrossOrigin("*")
+
+
+
 @RestController
 @RequestMapping("/api/v1/apt")
 @Api(value = "Appointment Endpoints")
 public class AppointmentController {
-
     private final AppointmentService appointmentService;
     private final DoctorService doctorService;
 
@@ -114,6 +115,7 @@ public class AppointmentController {
         Appointment updatedAppointment=null;
         Integer approvalStatus=1;
         Integer rejectStatus=0;
+
         if (existingAppointment==null){
             //here we return
         }
@@ -125,6 +127,7 @@ public class AppointmentController {
             mailService.sendTextEmail(existingAppointment.getPatientName(),existingAppointment.getPatientEmail(),existingAppointment.getAppointmentStatus().name());
         }else if (Objects.equals(statusId, approvalStatus)){
             assert existingAppointment != null;
+            existingAppointment.setAppointmentStatus(AppointmentStatus.APPROVED);
             updatedAppointment=appointmentService.updateAppointment(existingAppointment);
             existingAppointment.setAppointmentStatus(AppointmentStatus.APPROVED);
             mailService.sendTextEmail(existingAppointment.getPatientName(),existingAppointment.getPatientEmail(),existingAppointment.getAppointmentStatus().name());
