@@ -134,8 +134,6 @@ public class AppointmentController {
 
         }
 
-
-
         return new ResponseEntity<>(updatedAppointment,HttpStatus.OK);
     }
 
