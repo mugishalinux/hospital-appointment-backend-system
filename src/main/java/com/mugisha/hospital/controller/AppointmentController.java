@@ -72,10 +72,10 @@ public class AppointmentController {
         Appointment apoints=appointmentService.findAppointmentByAppointmentDate(doctorId,aptDate);
         if (apoints==null){
             if (LocalDate.now().equals(aptDate)){
-                starHour=LocalDateTime.now().getHour();
+                starHour=LocalDateTime.now().getHour()+3;
                 System.out.println("starHour:"+starHour);
             }
-            for (int i=starHour+1;i<=endHour;i++){
+            for (int i=starHour;i<=endHour;i++){
                 AppointTimeDate appointTimeDate=new AppointTimeDate();
                 appointTimeDate.setDate(aptDate);
                 appointTimeDate.setTime(i+hourFormatString);
@@ -86,7 +86,7 @@ public class AppointmentController {
                 starHour=LocalDateTime.now().getHour();
 
             }
-            for (int i=starHour+1;i<=endHour;i++){
+            for (int i=starHour;i<=endHour;i++){
                 Appointment appointment=appointmentService.findAppointmentByDoctorId(doctorId,aptDate,i);
                 if (appointment==null){
                     AppointTimeDate appointTimeDate=new AppointTimeDate();
