@@ -59,8 +59,8 @@ public class AppointmentController {
         return new ResponseEntity<Appointment>(createdAppointment, HttpStatus.CREATED);
 
     }
-
-   @ApiOperation(value = "Returns List of available hours doctor has")
+    
+     @ApiOperation(value = "Returns List of available hours doctor has")
     @GetMapping("/doc/{doctorId}/date/{appointmentDate}")
     public ResponseEntity<List<AppointTimeDate>> getDoctorAvailableHours(@PathVariable Integer doctorId, @PathVariable String appointmentDate) throws DoctorNotFoundException {
         Doctor doctor=doctorService.findDoctorById(doctorId);
@@ -69,13 +69,22 @@ public class AppointmentController {
         String hourFormatString=":00";
         Integer starHour=doctor.getStartHour();
         Integer endHour=doctor.getEndHour();
+        int startingHour = 0;
         Appointment apoints=appointmentService.findAppointmentByAppointmentDate(doctorId,aptDate);
         if (apoints==null){
             if (LocalDate.now().equals(aptDate)){
-                starHour=LocalDateTime.now().getHour()+3;
-                System.out.println("starHour:"+starHour);
+                int startTemp = LocalDateTime.now().getHour()+2;
+
+                if(startTemp >= starHour){
+                   startingHour = startTemp;
+                }else{
+                    startingHour = starHour;
+                }
             }
-            for (int i=starHour;i<=endHour;i++){
+            if(startingHour == LocalDateTime.now().getHour()+2){
+                startingHour = startingHour + 1;
+            }
+            for (int i = startingHour; i<=endHour;i++){
                 AppointTimeDate appointTimeDate=new AppointTimeDate();
                 appointTimeDate.setDate(aptDate);
                 appointTimeDate.setTime(i+hourFormatString);
@@ -83,10 +92,11 @@ public class AppointmentController {
             }
         }else {
             if (LocalDate.now().equals(aptDate)){
-                starHour=LocalDateTime.now().getHour();
+                starHour=LocalDateTime.now().getHour()+2;
 
             }
-            for (int i=starHour;i<=endHour;i++){
+            System.out.println(startingHour);
+            for (int i=starHour+1;i<=endHour;i++){
                 Appointment appointment=appointmentService.findAppointmentByDoctorId(doctorId,aptDate,i);
                 if (appointment==null){
                     AppointTimeDate appointTimeDate=new AppointTimeDate();
@@ -99,14 +109,6 @@ public class AppointmentController {
         return new ResponseEntity<>(appointTimeDateList, HttpStatus.OK);
     }
 
-    @ApiOperation(value="Returns List of Appointments ")
-    @GetMapping("/all")
-    public ResponseEntity<List<Appointment>> getAllAppointments() throws DoctorNotFoundException {
-        List<Appointment>appointments=appointmentService.getAppointments();
-        if(appointments.isEmpty())throw new DoctorNotFoundException("List is Empty");
-
-        return new ResponseEntity<>(appointments,HttpStatus.OK);
-    }
 
     @ApiOperation(value="Returns status ok ")
     @PutMapping("/{id}/status/{statusId}")
