@@ -108,6 +108,16 @@ public class AppointmentController {
         }
         return new ResponseEntity<>(appointTimeDateList, HttpStatus.OK);
     }
+    
+        @ApiOperation(value="Returns List of Appointments ")
+    @GetMapping("/all")
+    public ResponseEntity<List<Appointment>> getAllAppointments() throws DoctorNotFoundException {
+        List<Appointment>appointments=appointmentService.getAppointments();
+        if(appointments.isEmpty())throw new DoctorNotFoundException("List is Empty");
+
+        return new ResponseEntity<>(appointments,HttpStatus.OK);
+    }
+
 
 
     @ApiOperation(value="Returns status ok ")
